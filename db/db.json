@@ -1,0 +1,58 @@
+{
+  "user": [
+    {
+      "email": "sam@test.com",
+      "name": "sam",
+      "password": "sam@123",
+      "id": 1
+    },
+    {
+      "email": "peter@test.com",
+      "name": "peter",
+      "password": "peter@123",
+      "id": 2
+    },
+    {
+      "email": "golu@test.com",
+      "name": "golu",
+      "password": "golu@123",
+      "id": 4
+    },
+    {
+      "email": "sid@test.com",
+      "name": "sid",
+      "password": "sid@123",
+      "id": 5
+    },
+    {
+      "email": "bus",
+      "name": "car",
+      "password": "123",
+      "id": 6
+    },
+    {
+      "email": "xyz@test.com",
+      "name": "xyz",
+      "password": "xyz",
+      "id": 7
+    },
+    {
+      "email": "tax@gmail.com",
+      "name": "tax",
+      "password": "tax@123",
+      "id": 8
+    },
+    {
+      "email": "helllo@gmail.com",
+      "name": "hello",
+      "password": "hello@123",
+      "id": 9
+    },
+    {
+      "email": "sham@test.com",
+      "name": "sham",
+      "password": "sham",
+      "id": 10
+    }
+  ]
+}
