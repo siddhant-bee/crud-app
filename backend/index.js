@@ -16,15 +16,39 @@ client.query('SELECT * FROM userinfo', (error, results, fields) => {
     });
   });
 
+  app.post('/login', (req, res)=>{
+    const { email, password } = req.body
+    console.log(email,password)
+    client.query(`Select * from  userinfo where email='${email}' and pass='${password}'`, (err, result)=>{
+        if(!err){
+            res.send(result.rows);
+            
+        }
+    });
+    client.end;
+})
+
+
 
   app.post('/users', (req, res)=> {
     const user = req.body;
-    let insertQuery = `INSERT INTO userinfo( fullname, email, pass) 
-                       VALUES('${user.name}', '${user.email}', '${user.password}')`
 
-    client.query(insertQuery, (err, result)=>{
+    client.query(`SELECT * FROM userinfo WHERE email='${user.email}'`, (err, result)=>{
         if(!err){
-            res.send('Insertion was successful')
+            if(result.rows[0]){
+                return res.send('Email already in use')
+            }
+        }
+    })
+    client.end;
+
+    let insertQuery = `INSERT INTO userinfo( fullname, email, pass,role) 
+                       VALUES('${user.name}', '${user.email}', '${user.password}','${user.role}')`
+
+    client.query(insertQuery, (err, result)=>
+    {
+        if(!err){
+           return res.send('Insertion was successful')
         }
         else{ console.log(err.message) }
     })
@@ -33,10 +57,10 @@ client.query('SELECT * FROM userinfo', (error, results, fields) => {
 
 
 app.post('/add-task', (req, res)=> {
-    const user = req.body;
-    
-    let insertQuery = `INSERT INTO tasks(task) 
-                       VALUES('${user._value}')`
+    const {inputref,user_id} = req.body;
+   
+    let insertQuery = `INSERT INTO tasks(task,userinfo_id) 
+                       VALUES('${inputref._value}','${user_id}')`
 
     client.query(insertQuery, (err, result)=>{
         if(!err){
@@ -47,16 +71,23 @@ app.post('/add-task', (req, res)=> {
     client.end;
 })
 
-app.get('/gettask', (req, res) => {
-    client.query('SELECT * FROM tasks', (error, results, fields) => {
+app.get('/gettask/:id', (req, res) => {
+    client.query(`SELECT * FROM tasks where userinfo_id=${req.params.id}`, (error, results, fields) => {
           if (error) throw error;
           res.send(results.rows);
         });
       });
 
+      app.get('/getadmintask', (req, res) => {
+        client.query('SELECT * FROM tasks', (error, results, fields) => {
+              if (error) throw error;
+              res.send(results.rows);
+            });
+          });
+
 
       app.delete('/deletetask/:id', (req, res)=> {
-        let insertQuery = `delete from tasks where id=${req.params.id}`
+        let insertQuery = `delete from tasks where task_id=${req.params.id}`
     
         client.query(insertQuery, (err, result)=>{
             if(!err){
